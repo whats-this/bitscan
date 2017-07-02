@@ -5,6 +5,7 @@ COPY bitscan.go $GOPATH/src/github.com/whats-this/bitscan/
 RUN apk add --no-cache --virtual .build-deps git && \
 
     go-wrapper download github.com/Sirupsen/logrus && \
+    go-wrapper download github.com/whats-this/cdn-origin/weed && \
     go-wrapper download github.com/spf13/viper && \
     go-wrapper download github.com/valyala/fasthttp && \
     go-wrapper download github.com/buaazp/fasthttprouter && \
