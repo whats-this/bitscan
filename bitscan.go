@@ -285,7 +285,7 @@ func processScan(object *object) error {
 		}).Info("found virus in a file")
 		err = sendWebhook(fmt.Sprintf("Positive file found: `%s`", object.BucketKey),
 			fmt.Sprintf("`%s` (`%s`) returned positive during scan with virus `%s`.\n\n"+
-				"It has not been deleted from storage backend.", object.BucketKey, object.MD5Hash,
+				"It has not been deleted from storage backend.", object.BucketKey, *object.MD5Hash,
 				res.Virus),
 			"#439FE0")
 		if err != nil {
