@@ -327,6 +327,14 @@ func scan(object *object) (*clamscan.Result, error) {
 		return nil, errors.New("failed to get file from SeaweedFS backend: " + err.Error())
 	}
 
+	// Close the file
+	if err = file.Close(); err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+			"path": path,
+		}).Error("failed to close file")
+	}
+
 	// Scan the file using clamscan
 	res, err := clamscan.Scan(&clamscan.Options{}, path)
 	if err != nil {
@@ -336,14 +344,7 @@ func scan(object *object) (*clamscan.Result, error) {
 		}).Error("failed to scan file")
 		return nil, errors.New("failed to scan file: " + err.Error())
 	}
-
-	// Close the file
-	if err = file.Close(); err != nil {
-		log.WithFields(log.Fields{
-			"err": err,
-			"path": path,
-		}).Error("failed to close file")
-	}
+	result := <-res
 
 	// Remove the file from disk
 	if err = os.Remove(path); err != nil {
@@ -353,5 +354,5 @@ func scan(object *object) (*clamscan.Result, error) {
 		}).Error("failed to delete file from disk")
 	}
 
-	return <-res, nil
+	return result, nil
 }
