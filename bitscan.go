@@ -256,6 +256,9 @@ func sendWebhook(title, text, color string) error {
 
 func processScan(object *object) error {
 	res, err := scan(object)
+	if res == nil {
+		return nil
+	}
 	if err != nil {
 		err = sendWebhook(
 			fmt.Sprintf("Error scanning `%s`", object.BucketKey),
