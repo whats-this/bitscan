@@ -318,7 +318,7 @@ func scan(object *object) (*clamscan.Result, error) {
 	file.Chmod(objectFileMode)
 
 	// Get file from SeaweedFS
-	_, err = seaweed.Get(file, *object.BackendFileID, "")
+	_, _, err = seaweed.Get(file, *object.BackendFileID, "")
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err":  err,
